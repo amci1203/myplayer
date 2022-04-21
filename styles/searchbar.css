@@ -1,0 +1,15 @@
+label[for='search'] {
+  @apply relative ml-2;
+
+  input {
+    @apply bg-gray-900 py-1 px-4 rounded-full;
+
+    &[disabled] {
+      @apply cursor-not-allowed bg-gray-500 text-gray-200;
+    }
+  }
+
+  input + svg {
+    @apply absolute right-3 top-2;
+  }
+}

@@ -1,0 +1,76 @@
+.player {
+  &__header, &__toolbar {
+    @apply fixed flex items-center justify-between inset-x-0 text-white px-4;
+  }
+
+  &__header {
+    @apply top-0 py-2 bg-gray-800;
+  }
+
+  &__header__icon {
+    @apply rounded-full p-3 cursor-pointer;
+
+    &:hover {
+      @apply bg-gray-600;
+    }
+  }
+  
+  &__list-item.file, &__list-item.directory > .label {
+    @apply flex items-center py-2 px-3 border-b border-b-gray-600 cursor-pointer overflow-hidden;
+  }
+
+  &__list-item.file[data-active] {
+    @apply bg-gray-800 border-b-gray-800 font-bold;
+  }
+
+  &__list-item.directory {
+    @apply flex-col;
+
+    &[data-active] .label + div {
+      @apply pl-2 ml-4 border-l border-l-gray-600;
+    }
+  }
+
+  &__toolbar {
+    @apply transition-transform flex-wrap bottom-0 pt-3 pb-1 text-white bg-gray-800;
+    transform: translateY(120%);
+
+    &[data-show] {
+      transform: translateY(0);
+    }
+
+    audio {
+      @apply hidden;
+    }
+
+    &__label {
+      @apply text-sm italic text-gray-300;
+    }
+
+    &__control {
+      @apply p-2 rounded;
+
+      &:hover {
+        @apply bg-black;
+      }
+    }
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes bouncing-text {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

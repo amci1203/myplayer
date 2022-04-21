@@ -1,0 +1,22 @@
+{
+  "include": ["**/*"],
+  "exclude": ["node_modules", ".next"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@pages/*"      : ["pages/*"],
+      "@components/*" : ["components/*"],
+      "@templates/*"  : ["lib/templates/*"],
+
+      "@lib/*"        : ["lib/*"],
+      "@hooks/*"      : ["lib/hooks/*"],
+      "@models/*"     : ["lib/models/*"],
+      "@utils/*"      : ["lib/utils/*"],
+
+      "@images/*"     : ["public/assets/img/*"],
+      "@styles/*"     : ["styles/*.css"],
+
+      "@/*": ["*"]
+    }
+  }
+}
