@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { FaFolder, FaFolderOpen } from 'react-icons/fa'
-import { icons, getFileType } from '@lib/file-types'
+import { icons } from '@lib/file-types'
 
 
-const _File = activate => function File ({ file, path, playing }) {
-  const type = getFileType(file.name)
+const _File = activate => function File ({ file, type, path, playing }) {
   const active = path == playing
 
   return (
@@ -63,7 +62,7 @@ const _Directory = (File, dispatch) => function Directory (props) {
         return list
       }
 
-      const fprops = { ...common, file: item.handle }
+      const fprops = { ...common, file: item.handle, type: item.type }
       list.push(<File {...fprops}/>)
 
       return list
@@ -131,12 +130,12 @@ const FilesList = () => {
     </div>
   )
 
-  const select = (h, p, m) => () => {
+  const select = (h, p, t) => () => {
     dispatch.files.reshuffleTracks()
     dispatch.player.select({
       handle: h,
       path: p,
-      mode: m,
+      type: t,
     })
   }
 
@@ -152,7 +151,7 @@ const FilesList = () => {
 
     return item.directory
       ? <DItem {...common} dir={item} />
-      : <FItem {...common} file={item.handle} />
+      : <FItem {...common} file={item.handle} type={item.type} />
   })
 
   return (

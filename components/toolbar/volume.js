@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 
-import Incrementer from '@components/controls/incrementer'
+import {
+  IoVolumeMuteSharp,
+  IoVolumeOffSharp,
+  IoVolumeLowSharp,
+  IoVolumeMediumSharp,
+  IoVolumeHighSharp,
+} from 'react-icons/io5'
+
+import Incrementer from '@components/toolbar/incrementer'
 
 const VolumeIcon = ({ v, muted }) => {
   if (muted) return <IoVolumeMuteSharp />
@@ -10,7 +18,7 @@ const VolumeIcon = ({ v, muted }) => {
   return <IoVolumeHighSharp />
 }
 
-const useVolumeControl = media => {
+const VolumeControl = ({ media, track }) => {
   const [muted, setMuted] = useState(false)
   const [volume, setVolume] = useState(100)
 
@@ -25,9 +33,14 @@ const useVolumeControl = media => {
   }
 
   useEffect(() => {
-    if (!media.current) return
-    media.current.volume = (volume / 100).toFixed(2)
-  }, [file, media, volume])
+    if (!media) return
+    media.volume = (volume / 100).toFixed(2)
+  }, [track, volume])
+
+  useEffect(() => {
+    if (!media) return
+    media.muted = muted
+  }, [track, muted])
 
   const vprops = {
     increment,
@@ -38,13 +51,11 @@ const useVolumeControl = media => {
     className: 'flex items-center w-[58px]',
   }
 
-  const VolumeControl = () => (
+  return (
     <Incrementer {...vprops}>
       <VolumeIcon v={volume} muted={muted} />&nbsp;{volume}
     </Incrementer>
   )
-
-  return { VolumeControl, muted }
 }
 
-export default useVolumeControl
+export default VolumeControl

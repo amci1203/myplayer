@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 
-import Incrementer from '@components/controls/incrementer'
+import Incrementer from '@components/toolbar/incrementer'
 
-const useSpeedControl = media => {
+const SpeedControl = ({ media, track }) => {
   const [speed, setSpeed] = useState(100)
 
   useEffect(() => {
-    if (!media.current) return
-    media.current.playbackRate = (speed / 100).toFixed(2)
-  }, [media, speed])
+    if (!media) return
+    media.playbackRate = (speed / 100).toFixed(2)
+  }, [track, speed])
 
   const increment = () => {
     if (speed == 150) return
@@ -27,13 +27,11 @@ const useSpeedControl = media => {
     disableDecrement: speed == 25,
   }
 
-  const SpeedControl = () => (
+  return (
     <Incrementer {...sprops}>
       &times;&nbsp;{(speed / 100).toFixed(2)}
     </Incrementer>
   )
-
-  return { SpeedControl }
 }
 
-export default useSpeedControl
+export default SpeedControl

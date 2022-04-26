@@ -4,7 +4,7 @@ import {
   IoChevronForwardSharp
 } from 'react-icons/io5'
 
-import Button from '@components/controls/button'
+import Button from '@components/toolbar/button'
 
 const Incrementer = props => {
   const midClass = 'bg-black rounded-md px-1 '

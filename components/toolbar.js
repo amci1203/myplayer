@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 
 import {
@@ -10,29 +10,41 @@ import {
   IoShuffleSharp,
 } from 'react-icons/io5'
 
-import Control from '@components/controls/button'
-import useVolumeControl from '@hooks/volume'
-import useSpeedControl from '@lib/hooks/playback-speed'
-import useTrackProgress from '@lib/hooks/track-progress'
+import Control from '@components/toolbar/button'
+import TrackProgress from '@components/toolbar/progress'
+import VolumeControl from '@components/toolbar/volume'
+import SpeedControl from '@components/toolbar/speed'
 
-const AudioPlayer = props => {
+const Toolbar = ({ media, file }) => {
   const dispatch = useDispatch()
-  const file = useSelector(state => state.player.track, shallowEqual)
   const mode = useSelector(state => state.player.mode)
   const shuffling = useSelector(state => state.player.shuffling)
-  const media = useRef(null)
-  const track = useRef(null)
-
-  const [paused, setPaused] = useState(false)
+  const paused = useSelector(state => state.player.paused)
   const [looping, setLooping] = useState(false)
-  const { VolumeControl, muted } = useVolumeControl(media)
-  const { SpeedControl } = useSpeedControl(media)
-  const { TrackProgress } = useTrackProgress(media, track)
 
   useEffect(() => {
+    if (!media) return
+    
+    media.addEventListener('pause', dispatch.player.pauseTrack)
+    media.addEventListener('play', dispatch.player.resumeTrack)
+    
+    return () => {
+      media.removeEventListener('pause', dispatch.player.pauseTrack)
+      media.removeEventListener('play', dispatch.player.resumeTrack)
+    }
+  }, [media])
+  
+  useEffect(() => {
+    if (!media) return
+    media.loop = looping
+  }, [looping])
+
+  useEffect(() => {
+    if (!media) return
+
     const actions = {
-      play: setPaused(!paused),
-      pause: setPaused(!paused),
+      play : dispatch.player.togglePause,
+      pause: dispatch.player.togglePause,
       stop: dispatch.player.stopTrack,
       previoustrack: dispatch.player.requestPrev,
       nexttrack: dispatch.player.requestNext,
@@ -41,49 +53,26 @@ const AudioPlayer = props => {
     for (let [action, fn] of Object.entries(actions)) {
       navigator.mediaSession.setActionHandler(action, fn)
     }
-  }, [shuffling])
+  }, [media])
 
-  useEffect(() => {
-    if (!media.current) return
-
-    if (file) {
-      media.current.play()
-      setPaused(false)
-      startTrackProgress()
-    } else if (media.current) {
-      media.current.pause()
-    }
-  }, [file])
-
-  useEffect(() => {
-    if (!media.current) return
-
-    if (paused) {
-      media.current.pause()
-      clearInterval(track.current)
-    } else {
-      media.current.play()
-      startTrackProgress()
-    }
-  }, [paused])
-
-  if (!file || mode == 'MUSIC') {
+  if (!media) {
     return <footer className='player__toolbar' />
+  }
+
+  const togglePlayback = () => {
+    if (paused) {
+      media.play()
+    } else {
+      media.pause()
+    }
   }
 
   return (
     <footer className='player__toolbar' data-show>
-      <audio
-        ref={media}
-        src={file}
-        loop={looping}
-        muted={muted}
-        controls
-      />
-      <TrackProgress />
+      <TrackProgress media={media} track={file} />
       <div className='flex items-center space-x-1'>
-        <SpeedControl />
-        <VolumeControl />
+        <SpeedControl media={media} track={file} />
+        <VolumeControl media={media} track={file} />
       </div>
       <div className='flex items-center'>
         <Control
@@ -106,11 +95,11 @@ const AudioPlayer = props => {
         />
         <Control
           icon={paused ? IoPlaySharp : IoPauseSharp}
-          action={() => setPaused(!paused)}
+          action={togglePlayback}
         />
       </div>
     </footer>
   )
 }
 
-export default AudioPlayer
+export default Toolbar

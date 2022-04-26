@@ -1,14 +1,22 @@
-import { useState, useEffect, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect, useCallback, Fragment } from 'react'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 
 import FilesList from '@components/files-list'
-import AudioPlayer from '@components/player'
+import Toolbar from '@components/toolbar'
 
 const Home = () => {
   const dispatch = useDispatch()
   const [scanDirs, setScanDirs] = useState(false)
+  const [media, setMedia] = useState(null)
   const [canReadFS, setFSAvailability] = useState(true)
   const handle = useSelector(state => state.files.handle)
+  const mode = useSelector(state => state.player.mode)
+  const file = useSelector(state => state.player.track, shallowEqual)
+
+  const setMediaElement = useCallback(node => {
+    if (node === media) return
+    setMedia(node)
+  }, [])
 
   useEffect(() => {
     if (!window.showDirectoryPicker) {
@@ -40,6 +48,17 @@ const Home = () => {
     }
   }
 
+  let component = null
+
+  if (mode == 'MUSIC') {
+    component = <audio ref={setMediaElement} src={file} />
+  } else if (mode == 'VIDEO') {
+    component = (
+      <section classname='player-overlay'>
+      </section>
+    )
+  }
+
   if (handle === null) {
     return (
       <section className='flex flex-col justify-center items-center h-screen'>
@@ -61,12 +80,12 @@ const Home = () => {
     )
   }
 
-  
+  console.log(file)
   return (
     <Fragment>
-      <section id='video-player-container'/>
+      {component}
       <FilesList />
-      <AudioPlayer />
+      <Toolbar media={media} file={file} />
     </Fragment>
   )
 }
