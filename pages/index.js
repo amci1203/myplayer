@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import FilesList from '@components/files-list'
-import Player from '@components/player'
+import AudioPlayer from '@components/player'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -66,7 +66,7 @@ const Home = () => {
     <Fragment>
       <section id='video-player-container'/>
       <FilesList />
-      <Player />
+      <AudioPlayer />
     </Fragment>
   )
 }

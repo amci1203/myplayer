@@ -131,11 +131,14 @@ const FilesList = () => {
     </div>
   )
 
-  const select = (h, p, m) => () => dispatch.player.select({
-    handle: h,
-    path: p,
-    mode: m,
-  })
+  const select = (h, p, m) => () => {
+    dispatch.files.reshuffleTracks()
+    dispatch.player.select({
+      handle: h,
+      path: p,
+      mode: m,
+    })
+  }
 
   const FItem = _File(select)
   const DItem = _Directory(FItem, dispatch)
