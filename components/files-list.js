@@ -1,21 +1,22 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { FaFolder, FaFolderOpen } from 'react-icons/fa'
-import { getFileTypeIcon } from '@lib/file-types'
+import { icons, getFileType } from '@lib/file-types'
+
 
 const _File = activate => function File ({ file, path, playing }) {
-  const icon = getFileTypeIcon(file.name)
+  const type = getFileType(file.name)
   const active = path == playing
 
   return (
     <div
       className='player__list-item file'
-      onClick={active ? undefined : activate(file, path, icon)}
-      onDoubleClick={activate(file, path, icon)}
+      onClick={active ? undefined : activate(file, path, type)}
+      onDoubleClick={activate(file, path, type)}
       data-active={active || undefined}
       data-path={path}
     >
-      <div className='w-4 mr-3'>{icon}</div>
+      <div className='w-4 mr-3'>{icons[type]}</div>
       <span>{file.name}</span>
     </div>
   )
