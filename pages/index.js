@@ -64,6 +64,7 @@ const Home = () => {
   
   return (
     <Fragment>
+      <section id='video-player-container'/>
       <FilesList />
       <Player />
     </Fragment>

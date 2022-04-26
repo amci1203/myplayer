@@ -57,6 +57,14 @@
   }
 }
 
+.video-player {
+  @apply fixed inset-0;
+
+  video {
+    @apply w-full h-auto max-w-full max-h-full;
+  }
+}
+
 @keyframes scroll-left {
   0% {
     transform: translateX(100%);
