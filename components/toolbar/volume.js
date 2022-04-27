@@ -18,7 +18,7 @@ const VolumeIcon = ({ v, muted }) => {
   return <IoVolumeHighSharp />
 }
 
-const VolumeControl = ({ media, track }) => {
+const VolumeControl = ({ media, track, hide }) => {
   const [muted, setMuted] = useState(false)
   const [volume, setVolume] = useState(100)
 
@@ -41,6 +41,8 @@ const VolumeControl = ({ media, track }) => {
     if (!media) return
     media.muted = muted
   }, [track, muted])
+
+  if (hide) return null
 
   const vprops = {
     increment,

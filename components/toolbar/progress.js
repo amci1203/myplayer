@@ -45,8 +45,7 @@ const Thumb = ({ props, isDragged }) => (
   />
 )
 
-const TrackProgress = ({ media, track: file }) => {
-  const dispatch = useDispatch()
+const TrackProgress = ({ media, track: file, hide }) => {
   const [elapsed, setElapsed] = useState([0])
   const track = useRef(null)
 
@@ -57,7 +56,7 @@ const TrackProgress = ({ media, track: file }) => {
     track.current = setInterval(() => {
       if (media?.ended) {
         media.pause()
-        dispatch.player.requestNext()
+        setElapsed([~~media.duration])
       } else {
         setElapsed([~~(media?.currentTime ?? 0)])
       }
@@ -105,6 +104,8 @@ const TrackProgress = ({ media, track: file }) => {
       media.pause()
     }
   }, [file])
+
+  if (hide) return null
 
   return (
     <div className='flex items-center space-x-4 w-full'>

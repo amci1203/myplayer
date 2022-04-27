@@ -3,6 +3,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 
 import FilesList from '@components/files-list'
 import Toolbar from '@components/toolbar'
+import { FaWindowClose } from 'react-icons/fa'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -52,9 +53,25 @@ const Home = () => {
 
   if (mode == 'MUSIC') {
     component = <audio ref={setMediaElement} src={file} />
-  } else if (mode == 'VIDEO') {
+  } else if (mode) {
+    const el = mode == 'VIDEO'
+      ? <video ref={setMediaElement} src={file} />
+      : <img src={file} />
+
+    const close = () => {
+      if (media?.pause) media.pause()
+      dispatch.player.stopTrack()
+    }
+  
     component = (
-      <section classname='player-overlay'>
+      <section className='player__overlay'>
+        <span
+          className='player__overlay__close'
+          onClick={close}
+        >
+          <FaWindowClose size='24' />
+        </span>
+        {el}
       </section>
     )
   }
@@ -80,12 +97,15 @@ const Home = () => {
     )
   }
 
-  console.log(file)
+  const showControls = !!media || mode == 'PHOTO'
+
   return (
     <Fragment>
       {component}
       <FilesList />
-      <Toolbar media={media} file={file} />
+      <footer className='player__toolbar' data-show={showControls || undefined}>
+        <Toolbar media={media} file={file} key={file} />
+      </footer>
     </Fragment>
   )
 }

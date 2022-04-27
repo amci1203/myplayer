@@ -55,13 +55,17 @@
       }
     }
   }
-}
 
-.video-player {
-  @apply fixed inset-0;
+  &__overlay {
+    @apply fixed flex justify-center items-center inset-0 bg-black pb-[88px];
+  
+    &__close {
+      @apply absolute top-4 right-4 cursor-pointer z-10;
+    }
 
-  video {
-    @apply w-full h-auto max-w-full max-h-full;
+    video {
+      @apply w-full h-auto max-w-full max-h-full;
+    }
   }
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import Incrementer from '@components/toolbar/incrementer'
 
-const SpeedControl = ({ media, track }) => {
+const SpeedControl = ({ media, track, hide }) => {
   const [speed, setSpeed] = useState(100)
 
   useEffect(() => {
@@ -19,6 +19,8 @@ const SpeedControl = ({ media, track }) => {
     if (speed == 25) return
     setSpeed(speed - 5)
   }
+
+  if (hide) return null
 
   const sprops = {
     increment,

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useSelector, useDispatch, shallowEqual } from 'react-redux'
+import { useState, useEffect, Fragment } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import {
   IoPlaySharp,
@@ -27,10 +27,12 @@ const Toolbar = ({ media, file }) => {
     
     media.addEventListener('pause', dispatch.player.pauseTrack)
     media.addEventListener('play', dispatch.player.resumeTrack)
+    media.addEventListener('ended', dispatch.player.requestNext)
     
     return () => {
       media.removeEventListener('pause', dispatch.player.pauseTrack)
       media.removeEventListener('play', dispatch.player.resumeTrack)
+      media.removeEventListener('ended', dispatch.player.requestNext)
     }
   }, [media])
   
@@ -55,10 +57,6 @@ const Toolbar = ({ media, file }) => {
     }
   }, [media])
 
-  if (!media) {
-    return <footer className='player__toolbar' />
-  }
-
   const togglePlayback = () => {
     if (paused) {
       media.play()
@@ -68,11 +66,11 @@ const Toolbar = ({ media, file }) => {
   }
 
   return (
-    <footer className='player__toolbar' data-show>
-      <TrackProgress media={media} track={file} />
+    <Fragment>
+      <TrackProgress media={media} track={file} hide={mode == 'PHOTO'} />
       <div className='flex items-center space-x-1'>
-        <SpeedControl media={media} track={file} />
-        <VolumeControl media={media} track={file} />
+        <SpeedControl media={media} track={file} hide={mode == 'PHOTO'} />
+        <VolumeControl media={media} track={file} hide={mode == 'PHOTO'} />
       </div>
       <div className='flex items-center'>
         <Control
@@ -98,7 +96,7 @@ const Toolbar = ({ media, file }) => {
           action={togglePlayback}
         />
       </div>
-    </footer>
+    </Fragment>
   )
 }
 

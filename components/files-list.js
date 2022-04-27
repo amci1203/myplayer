@@ -131,7 +131,7 @@ const FilesList = () => {
   )
 
   const select = (h, p, t) => () => {
-    dispatch.files.reshuffleTracks()
+    dispatch.files.reshuffleTracks(p)
     dispatch.player.select({
       handle: h,
       path: p,
