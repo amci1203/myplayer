@@ -92,7 +92,7 @@ const TrackProgress = ({ media, track: file, hide }) => {
       media.removeEventListener('pause', stopTrackProgress)
       media.removeEventListener('play', resumeTrackProgress)
     }
-  }, [])
+  }, [media])
 
   useEffect(() => {
     if (!media) return
@@ -103,7 +103,7 @@ const TrackProgress = ({ media, track: file, hide }) => {
     } else if (media) {
       media.pause()
     }
-  }, [file])
+  }, [media, file])
 
   if (hide) return null
 

@@ -15,9 +15,8 @@ import TrackProgress from '@components/toolbar/progress'
 import VolumeControl from '@components/toolbar/volume'
 import SpeedControl from '@components/toolbar/speed'
 
-const Toolbar = ({ media, file }) => {
+const Toolbar = ({ media, file, mode }) => {
   const dispatch = useDispatch()
-  const mode = useSelector(state => state.player.mode)
   const shuffling = useSelector(state => state.player.shuffling)
   const paused = useSelector(state => state.player.paused)
   const [looping, setLooping] = useState(false)

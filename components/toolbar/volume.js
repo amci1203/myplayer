@@ -35,12 +35,12 @@ const VolumeControl = ({ media, track, hide }) => {
   useEffect(() => {
     if (!media) return
     media.volume = (volume / 100).toFixed(2)
-  }, [track, volume])
+  }, [media, track, volume])
 
   useEffect(() => {
     if (!media) return
     media.muted = muted
-  }, [track, muted])
+  }, [media, track, muted])
 
   if (hide) return null
 

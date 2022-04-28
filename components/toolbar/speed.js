@@ -8,7 +8,7 @@ const SpeedControl = ({ media, track, hide }) => {
   useEffect(() => {
     if (!media) return
     media.playbackRate = (speed / 100).toFixed(2)
-  }, [track, speed])
+  }, [media, track, speed])
 
   const increment = () => {
     if (speed == 150) return

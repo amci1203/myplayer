@@ -104,7 +104,7 @@ const Home = () => {
       {component}
       <FilesList />
       <footer className='player__toolbar' data-show={showControls || undefined}>
-        <Toolbar media={media} file={file} key={file} />
+        <Toolbar media={media} file={file} mode={mode} />
       </footer>
     </Fragment>
   )
