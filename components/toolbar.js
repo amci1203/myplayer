@@ -14,6 +14,7 @@ import Control from '@components/toolbar/button'
 import TrackProgress from '@components/toolbar/progress'
 import VolumeControl from '@components/toolbar/volume'
 import SpeedControl from '@components/toolbar/speed'
+import setupMediaHandlers from '@lib/utils/setup-media-listeners'
 
 const Toolbar = ({ media, file, mode }) => {
   const dispatch = useDispatch()
@@ -21,40 +22,12 @@ const Toolbar = ({ media, file, mode }) => {
   const paused = useSelector(state => state.player.paused)
   const [looping, setLooping] = useState(false)
 
-  useEffect(() => {
-    if (!media) return
-    
-    media.addEventListener('pause', dispatch.player.pauseTrack)
-    media.addEventListener('play', dispatch.player.resumeTrack)
-    media.addEventListener('ended', dispatch.player.requestNext)
-    
-    return () => {
-      media.removeEventListener('pause', dispatch.player.pauseTrack)
-      media.removeEventListener('play', dispatch.player.resumeTrack)
-      media.removeEventListener('ended', dispatch.player.requestNext)
-    }
-  }, [media])
+  useEffect(setupMediaHandlers(media, dispatch), [media])
   
   useEffect(() => {
     if (!media) return
     media.loop = looping
   }, [looping])
-
-  useEffect(() => {
-    if (!media) return
-
-    const actions = {
-      play : dispatch.player.togglePause,
-      pause: dispatch.player.togglePause,
-      stop: dispatch.player.stopTrack,
-      previoustrack: dispatch.player.requestPrev,
-      nexttrack: dispatch.player.requestNext,
-    }
-
-    for (let [action, fn] of Object.entries(actions)) {
-      navigator.mediaSession.setActionHandler(action, fn)
-    }
-  }, [media])
 
   const togglePlayback = () => {
     if (paused) {
