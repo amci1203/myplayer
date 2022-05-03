@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState, useEffect, useCallback, Fragment } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 
@@ -79,6 +80,10 @@ const Home = () => {
   if (handle === null) {
     return (
       <section className='flex flex-col justify-center items-center h-screen'>
+        <Head>
+          <title>MyPlayer</title>
+          <meta name='theme-color' content='#1F2937' />
+        </Head>
         <h2 className='text-xl capitalize'>
           Please select a directory to search for your media in.
         </h2>
