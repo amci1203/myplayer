@@ -34,7 +34,7 @@ const Header = props => {
           <button
             ref={filterMenuTrigger}
             className='player__header__icon'
-            onClick={() => toggleMenu(filterMenu.state == 'closed')}
+            onClick={toggleMenu}
           >
             <FaFilter size={20} title='Change Filters' />
           </button>
