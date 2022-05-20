@@ -80,10 +80,6 @@ const Home = () => {
   if (handle === null) {
     return (
       <section className='flex flex-col justify-center items-center h-screen'>
-        <Head>
-          <title>MyPlayer</title>
-          <meta name='theme-color' content='#1F2937' />
-        </Head>
         <h2 className='text-xl capitalize'>
           Please select a directory to search for your media in.
         </h2>
@@ -106,6 +102,10 @@ const Home = () => {
 
   return (
     <Fragment>
+      <Head>
+        <title>MyPlayer</title>
+        <meta name='theme-color' content='#1F2937' />
+      </Head>
       {component}
       <FilesList />
       <footer className='player__toolbar' data-show={showControls || undefined}>
