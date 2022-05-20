@@ -1,12 +1,25 @@
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { FaFolder, FaFolderOpen } from 'react-icons/fa'
+import Marquee from 'react-fast-marquee'
 
 import { icons } from '@lib/file-types'
 import scrollTrackIntoView from '@lib/scroll-into-view'
 
 const _File = activate => function File ({ file, type, path, playing }) {
   const active = path == playing
+
+  const text = active ? (
+    <Marquee gradient={false} speed={90}>
+      <div className='w-4 mr-3'>{icons[type]}</div>
+      <span>{file.name}</span>
+    </Marquee>
+  ) : (
+    <Fragment>
+      <div className='w-4 mr-3'>{icons[type]}</div>
+      <span>{file.name}</span>
+    </Fragment>
+  )
 
   return (
     <button
@@ -15,10 +28,8 @@ const _File = activate => function File ({ file, type, path, playing }) {
       data-active={active || undefined}
       data-path={path}
       data-start={file.name.charAt(0).toLowerCase()}
-    >
-      <div className='w-4 mr-3'>{icons[type]}</div>
-      <span>{file.name}</span>
-    </button>
+      children={text}
+    />
   )
 }
 
