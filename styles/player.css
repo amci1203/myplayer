@@ -16,7 +16,15 @@
   }
   
   &__list-item.file, &__list-item.directory > .label {
-    @apply flex items-center py-2 px-3 border-b border-b-gray-600 cursor-pointer overflow-hidden;
+    @apply w-full flex items-center py-2 px-3 border-b border-b-gray-600 cursor-pointer;
+
+    span {
+      @apply truncate;
+    }
+  }
+
+  &__list-item:focus {
+    @apply bg-blue-900 text-gray-100;
   }
 
   &__list-item.file[data-active] {

@@ -1,23 +1,24 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { FaFolder, FaFolderOpen } from 'react-icons/fa'
-import { icons } from '@lib/file-types'
 
+import { icons } from '@lib/file-types'
+import scrollTrackIntoView from '@lib/scroll-into-view'
 
 const _File = activate => function File ({ file, type, path, playing }) {
   const active = path == playing
 
   return (
-    <div
+    <button
       className='player__list-item file'
-      onClick={active ? undefined : activate(file, path, type)}
       onDoubleClick={activate(file, path, type)}
       data-active={active || undefined}
       data-path={path}
+      data-start={file.name.charAt(0).toLowerCase()}
     >
       <div className='w-4 mr-3'>{icons[type]}</div>
       <span>{file.name}</span>
-    </div>
+    </button>
   )
 }
 
@@ -82,21 +83,6 @@ const _Directory = (File, dispatch) => function Directory (props) {
   )
 }
 
-const bringIntoView = path => {
-  const el = document.querySelector(`[data-path="${path}"]`)
-  if (!el) return
-
-  const { top, bottom } = el?.getBoundingClientRect()
-
-  if (bottom > window.innerHeight) {
-    const y = bottom + window.scrollY - 144
-    window.scrollTo({ top: y, behavior: 'smooth' })
-  } else if (top < 0) {
-    const y = top + window.scrollY - 72
-    window.scrollTo({ top: y, behavior: 'smooth' })
-  }
-}
-
 const FilesList = () => {
   const dispatch = useDispatch()
   const files = useSelector(state => state.files.tree, shallowEqual)
@@ -105,7 +91,8 @@ const FilesList = () => {
   const searching = useSelector(state => !!state.files.search)
 
   useEffect(() => {
-    bringIntoView(playing)
+    scrollTrackIntoView(playing)
+    document.querySelector(`[data-path='${playing}']`)?.focus()
   }, [playing])
 
   if (!files?.length) return (
