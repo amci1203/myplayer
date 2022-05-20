@@ -4,6 +4,7 @@ import { FaFolder, FaFolderOpen } from 'react-icons/fa'
 import Marquee from 'react-fast-marquee'
 
 import { icons } from '@lib/file-types'
+import findByLetter from '@lib/find-by-letter'
 import scrollTrackIntoView from '@lib/scroll-into-view'
 
 const _File = activate => function File ({ file, type, path, playing }) {
@@ -100,6 +101,13 @@ const FilesList = () => {
   const matched = useSelector(state => state.files.matched, shallowEqual)
   const playing = useSelector(state => state.player.path)
   const searching = useSelector(state => !!state.files.search)
+
+  useEffect(() => {
+    window.addEventListener('keypress', findByLetter)
+    return () => {
+      window.removeEventListener('keypress', findByLetter)
+    }
+  }, [])
 
   useEffect(() => {
     scrollTrackIntoView(playing)
