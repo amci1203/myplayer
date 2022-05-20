@@ -5,11 +5,14 @@ FROM node:16
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
 
+# install dependencies
+# Layer will only rebuild if dependencies change
+COPY package.json package-lock.json ./
+RUN npm ci
+
+
 # copy source files
 COPY . .
-
-# install dependencies
-RUN npm install
 
 # start app
 RUN npm run build
