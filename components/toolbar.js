@@ -14,7 +14,7 @@ import Control from '@components/toolbar/button'
 import TrackProgress from '@components/toolbar/progress'
 import VolumeControl from '@components/toolbar/volume'
 import SpeedControl from '@components/toolbar/speed'
-import setupMediaHandlers from '@lib/utils/setup-media-listeners'
+import setupMediaHandlers from '@lib/setup-media-listeners'
 
 const Toolbar = ({ media, file, mode }) => {
   const dispatch = useDispatch()
