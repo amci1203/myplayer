@@ -6,6 +6,7 @@ import Marquee from 'react-fast-marquee'
 import { icons } from '@lib/file-types'
 import findByLetter from '@lib/find-by-letter'
 import scrollTrackIntoView from '@lib/scroll-into-view'
+import { onEnterKey } from '@lib/utils/key-handlers'
 
 const _File = activate => function File ({ file, type, path, playing }) {
   const active = path == playing
@@ -30,6 +31,7 @@ const _File = activate => function File ({ file, type, path, playing }) {
       data-path={path}
       data-start={file.name.charAt(0).toLowerCase()}
       children={text}
+      onKeyPress={onEnterKey(activate(file, path, type))}
     />
   )
 }
