@@ -29,6 +29,10 @@ const Toolbar = ({ media, file, mode }) => {
     media.loop = looping
   }, [looping])
 
+  useEffect(() => {
+    media?.[paused ? 'pause' : 'play']()
+  }, [paused])
+
   const togglePlayback = () => {
     if (paused) {
       media.play()

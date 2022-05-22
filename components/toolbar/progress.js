@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
 import { Range, getTrackBackground } from 'react-range'
 
 const formatTime = seconds => {
