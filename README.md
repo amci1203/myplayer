@@ -1,23 +1,23 @@
-# Next.js + Tailwind CSS Example
+# MyPlayer (WIP)
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+---
 
-## Deploy your own
+I felt like doing something different that's not completely useless to me
+so I decided to create a music player that utilizes the experimental
+Filesystem API for myself and any other weirdo that still saves their music locally.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+Chrome, Safari, and Opera support the API already as of writing this; other browsers
+are unsupported.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+This is a work in progress and there are bugs; bear with me here
 
-## How to use
+---
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+## How to Run
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app -- --example with-tailwindcss with-tailwindcss-app
-```
+  - Docker: If you have docker installed, build the image and bind port 3000 to
+    your port of choice when you run the container
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+  - Node: This is a standard Next.js project; build production with `npm run build`
+    and run the app with `npm start`. To use a port other than 3000, set the env var
+    like so: `PORT={port} npm start`
